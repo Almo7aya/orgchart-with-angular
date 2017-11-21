@@ -1,0 +1,13 @@
+<app-items-count></app-items-count>
+
+<ul>
+
+  <li *ngFor='let item of items'>{{item.name}}
+    <span (click)="deleteItem(item)">X</span>
+  </li>
+
+</ul>
+
+<input (keyup)='$event.keyCode === 13 && addItem(input.value); $event.keyCode === 13 && input.value = "";' type="text" #input>
+
+<button (click)='addItem(input.value); input.value="";'>Add Item</button>
