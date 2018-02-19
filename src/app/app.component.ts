@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { store, Observer } from './shared/models/app-store';
-import { fakeItems } from './shared/models/item';
+
+declare var $: any;
 
 @Component({
   selector: 'app-root',
@@ -9,24 +9,51 @@ import { fakeItems } from './shared/models/item';
 
     <h1>RX Store</h1>
 
-    <app-list-view></app-list-view>
+    <div id="org" ></div>
 
   `
 })
-export class AppComponent implements OnInit, Observer {
+export class AppComponent implements OnInit {
 
   ngOnInit() {
-    if (localStorage.getItem('itemsList')) {
-      store.initTheItems(JSON.parse(localStorage.getItem('itemsList')));
-    } else {
-      store.initTheItems(fakeItems.slice(0));
-    }
 
-    store.subscribe(this);
-  }
+    $(function () {
 
-  next(data: any) {
-    localStorage.setItem('itemsList', JSON.stringify(data));
+      var datascource = {
+        'name': 'Lao Lao',
+        'title': 'general manager',
+        'children': [
+          { 'name': 'Bo Miao', 'title': 'department manager' },
+          {
+            'name': 'Su Miao', 'title': 'department manager',
+            'children': [
+              { 'name': 'Tie Hua', 'title': 'senior engineer' },
+              {
+                'name': 'Hei Hei', 'title': 'senior engineer',
+                'children': [
+                  { 'name': 'Pang Pang', 'title': 'engineer' },
+                  { 'name': 'Xiang Xiang', 'title': 'UE engineer' }
+                ]
+              }
+            ]
+          },
+          { 'name': 'Yu Jie', 'title': 'department manager' },
+          { 'name': 'Yu Li', 'title': 'department manager' },
+          { 'name': 'Hong Miao', 'title': 'department manager' },
+          { 'name': 'Yu Wei', 'title': 'department manager' },
+          { 'name': 'Chun Miao', 'title': 'department manager' },
+          { 'name': 'Yu Tie', 'title': 'department manager' }
+        ]
+      };
+
+      $('#org').orgchart({
+        'data': datascource,
+        'visibleLevel': 2,
+        'nodeContent': 'title',
+      });
+
+    });
+
   }
 
 }
